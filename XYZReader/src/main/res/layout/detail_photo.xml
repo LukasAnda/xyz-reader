@@ -1,0 +1,9 @@
+<com.example.xyzreader.ui.detail.RatioImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/photo"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/detail_photo_height"
+    android:adjustViewBounds="true"
+    android:scaleType="centerCrop"
+    app:layout_collapseMode="parallax"
+    app:layout_collapseParallaxMultiplier="0.7" />

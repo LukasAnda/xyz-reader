@@ -16,22 +16,29 @@
 
 package com.example.xyzreader.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.ScrollView;
 
-/**
- * A custom ScrollView that can accept a scroll listener.
- */
-public class ObservableScrollView extends ScrollView {
-    private Callbacks mCallbacks;
+import android.content.Context;
+import android.support.v4.widget.NestedScrollView;
+import android.util.AttributeSet;
+import android.view.MotionEvent;
 
-    public ObservableScrollView(Context context, AttributeSet attrs) {
+/**
+ * A custom NestedScrollView that can accept a scroll listener.
+ */
+public class ObservableNestedScrollView extends NestedScrollView {
+    private Callbacks mCallbacks;
+    
+    public ObservableNestedScrollView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
-
+    
+    
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
@@ -39,7 +46,7 @@ public class ObservableScrollView extends ScrollView {
             mCallbacks.onScrollChanged();
         }
     }
-
+    
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
@@ -49,16 +56,22 @@ public class ObservableScrollView extends ScrollView {
             mCallbacks.onScrollChanged();
         }
     }
-
+    
+    @Override
+    public void fling(int velocityY) {
+        super.fling(velocityY / 100);
+    }
+    
+    @SuppressLint("RestrictedApi")
     @Override
     public int computeVerticalScrollRange() {
         return super.computeVerticalScrollRange();
     }
-
+    
     public void setCallbacks(Callbacks listener) {
         mCallbacks = listener;
     }
-
+    
     public static interface Callbacks {
         public void onScrollChanged();
     }

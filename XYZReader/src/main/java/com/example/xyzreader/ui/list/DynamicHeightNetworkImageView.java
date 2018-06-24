@@ -1,4 +1,4 @@
-package com.example.xyzreader.ui;
+package com.example.xyzreader.ui.list;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -21,7 +21,7 @@ public class DynamicHeightNetworkImageView extends NetworkImageView {
     }
 
     public void setAspectRatio(float aspectRatio) {
-        mAspectRatio = aspectRatio;
+        this.mAspectRatio = aspectRatio;
         requestLayout();
     }
 
