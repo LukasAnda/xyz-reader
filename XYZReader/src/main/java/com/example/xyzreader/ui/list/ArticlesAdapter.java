@@ -8,9 +8,11 @@ import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
+import com.example.xyzreader.GlideApp;
 import com.example.xyzreader.R;
 import com.example.xyzreader.data.ArticleLoader;
 import com.example.xyzreader.ui.ImageLoaderHelper;
@@ -73,7 +75,7 @@ class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ArticleViewHo
     }
     
     class ArticleViewHolder extends RecyclerView.ViewHolder {
-        DynamicHeightNetworkImageView thumbnailView;
+        ImageView thumbnailView;
         TextView titleView;
         TextView subtitleView;
         private ImageLoader imageLoader;
@@ -90,8 +92,7 @@ class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.ArticleViewHo
                 articleImageAspectRatio) {
             titleView.setText(articleTitle);
             subtitleView.setText(articleSubtitle);
-            thumbnailView.setImageUrl(articleImageUrl, imageLoader);
-            thumbnailView.setAspectRatio(articleImageAspectRatio);
+            GlideApp.with(thumbnailView).load(articleImageUrl).into(thumbnailView);
         }
     }
     

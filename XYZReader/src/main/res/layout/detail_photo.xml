@@ -1,4 +1,4 @@
-<com.example.xyzreader.ui.detail.RatioImageView xmlns:android="http://schemas.android.com/apk/res/android"
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/photo"
     android:layout_width="match_parent"

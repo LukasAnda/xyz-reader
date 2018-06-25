@@ -21,6 +21,8 @@ import android.text.format.DateUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +31,7 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.example.xyzreader.GlideApp;
 import com.example.xyzreader.R;
 import com.example.xyzreader.data.ArticleLoader;
 import com.example.xyzreader.ui.ImageLoaderHelper;
@@ -122,9 +125,18 @@ public class ArticleDetailFragment extends Fragment implements
     
     private void setupToolbar() {
         //toolbar.setTitle("");
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(" ");
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
+        toolbar.setTitle(" ");
+//        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+//        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(" ");
+        
     }
     
     private void addFabShareAction() {
@@ -137,6 +149,11 @@ public class ArticleDetailFragment extends Fragment implements
                         .getIntent(), getString(R.string.action_share)));
             }
         });
+    }
+    
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
     }
     
     @Override
@@ -174,28 +191,12 @@ public class ArticleDetailFragment extends Fragment implements
                             + cursor.getString(ArticleLoader.Query.AUTHOR)
                             + "</font>"));
             bodyView.setText(Html.fromHtml(cursor.getString(ArticleLoader.Query.BODY)));
-            ImageLoaderHelper.getInstance(getActivity()).getImageLoader()
-                    .get(cursor.getString(ArticleLoader.Query.PHOTO_URL), new ImageLoader.ImageListener() {
-                        @Override
-                        public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
-                            Bitmap bitmap = imageContainer.getBitmap();
-                            if (bitmap != null) {
-                                Palette p = Palette.generate(bitmap, 12);
-                                mutedColor = p.getDarkMutedColor(0xFF333333);
-                                photoView.setImageBitmap(imageContainer.getBitmap());
-                                rootView.findViewById(R.id.meta_bar)
-                                        .setBackgroundColor(mutedColor);
-                                if (collapsingToolbarLayout != null)
-                                    collapsingToolbarLayout.setContentScrimColor(mutedColor);
-                                updateStatusBar();
-                            }
-                        }
-                        
-                        @Override
-                        public void onErrorResponse(VolleyError volleyError) {
-                        
-                        }
-                    });
+            GlideApp.with(photoView).load(cursor.getString(ArticleLoader.Query.PHOTO_URL)).into(photoView);
+            rootView.findViewById(R.id.meta_bar)
+                    .setBackgroundColor(mutedColor);
+            if (collapsingToolbarLayout != null)
+                collapsingToolbarLayout.setContentScrimColor(mutedColor);
+            updateStatusBar();
         } else {
             rootView.setVisibility(View.GONE);
             titleView.setText("N/A");
